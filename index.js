@@ -7,7 +7,9 @@ const app = express();
 
 app.use(bodyParser.json())
 
-mongoose.connect("mongodb+srv://Aishwarya123:sg8eJZVpV9e3eEP3@cluster0.gf2pu4l.mongodb.net/Application", {
+mongoose.set('strictQuery', false);
+
+mongoose.connect("mongodb+srv://Aishwarya123:sg8eJZVpV9e3eEP3@cluster0.gf2pu4l.mongodb.net/Applications", {
 
 })
     .then(() => console.log("MongoDB is connected successfully.."))

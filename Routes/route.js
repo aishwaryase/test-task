@@ -6,6 +6,10 @@ const Router = express.Router()
 Router.post("/batting", battingController.createBattings)
 Router.post("/bowling", battingController.createBowlings)
 Router.post("/wicket", battingController.createWickets)
+Router.post("/postBowlings", battingController.postBowlings)
+Router.get("/getBowlings",battingController.getBowlings)
+Router.post("/postBattings", battingController.postBattings)
+Router.get("/getBattings",battingController.getBattings)
 
 
 //************ checking your end point valid or not */
