@@ -235,7 +235,11 @@ const createDrills = async function (req, res) {
         let data = req.body;
 
         let { drills, date, time} = data
-
+  
+         let myInt = setTimeout(() => {
+            data.date = date
+        }, 1800000); 
+        console.log(myInt)
         if (await drillModel.findOne({ date: date, time: time }))
             return res.status(400).send({ status: false, message: "You already have a routine set for this time" })
 
