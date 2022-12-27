@@ -1,3 +1,8 @@
+const express = require("express")
+const app = express();
+const multer = require("multer")
+const path = require("path")
+const commnMid = require("../Middleware/Auth")
 const battingModel = require("../Models/battingModel")
 const bowlingModel = require("../Models/bowlingModel")
 const wicketModel = require("../Models/wicketModel")
@@ -6,6 +11,7 @@ const filterBatting = require("../Models/filterBatting")
 const bow_batModel = require("../Models/bow_batModel")
 const userModel = require("../Models/userModel")
 const drillModel = require("../Models/drillsModel")
+const gripModel = require("../Models/battingGrip")
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
 
@@ -211,8 +217,7 @@ const getBattings = async function (req, res) {
 const bow_bat = async function (req, res) {
     try {
         let data = req.body;
-        // console.log(data)
-        data = JSON.parse(JSON.stringify(data))
+        data = JSON.parse(JSON.stringify(data));
 
         const actionCreated = await bow_batModel.create(data)
 
@@ -234,12 +239,8 @@ const createDrills = async function (req, res) {
     try {
         let data = req.body;
 
-        let { drills, date, time} = data
-  
-         let myInt = setTimeout(() => {
-            data.date = date
-        }, 1800000); 
-        console.log(myInt)
+        let { drills, date, time } = data
+
         if (await drillModel.findOne({ date: date, time: time }))
             return res.status(400).send({ status: false, message: "You already have a routine set for this time" })
 
@@ -258,18 +259,18 @@ const createDrills = async function (req, res) {
     }
 };
 
-const getRoutine = async function(req, res){
-    try{
-     let data = req.body;
+const getRoutine = async function (req, res) {
+    try {
+        let data = req.body;
 
-     const getDrills = await drillModel.find(data).sort({time : data.time})
+        const getDrills = await drillModel.find(data).sort({ time: data.time })
 
-    return res.status(200).send({
+        return res.status(200).send({
             status: true,
-            data : getDrills
-        
-    })
-  }
+            data: getDrills
+
+        })
+    }
     catch (error) {
         return res.status(500).send({
             status: false,
@@ -277,6 +278,7 @@ const getRoutine = async function(req, res){
         })
     }
 };
+
 
 
 

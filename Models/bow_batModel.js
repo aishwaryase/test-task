@@ -2,11 +2,11 @@ const mongoose = require("mongoose")
 
 const bow_batSchema = new mongoose.Schema({
 
-    batsman: {
+    bat_hand: {
         type: String,
         require:true
     },
-    bowler: {
+    bowl_hand: {
         type: String,
         require:true
     },
@@ -14,7 +14,11 @@ const bow_batSchema = new mongoose.Schema({
         type: String,
         require:true
     },
-    handed_bowling:{
+    bowling_order: {
+        type: String,
+        require:true
+    },
+    wicket_keeper:{
         type:String,
         require:true
     }
