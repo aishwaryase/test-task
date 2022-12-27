@@ -5,7 +5,7 @@ const userModel = require("../Models/userModel");
 
 const jwtValidation = async function (req, res, next) {
     try {
-       
+
         let token = req.headers["authorization"]
         if (token.startsWith('Bearer ')) {
             token = token.slice(7, token.length)
@@ -57,4 +57,4 @@ const authorization = async function (req, res, next) {
     }
 }
 
-module.exports = {jwtValidation, authorization}
+module.exports = { jwtValidation, authorization }
