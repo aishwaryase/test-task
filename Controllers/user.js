@@ -1,8 +1,3 @@
-const express = require("express")
-const app = express();
-const multer = require("multer")
-const path = require("path")
-const commnMid = require("../Middleware/Auth")
 const battingModel = require("../Models/battingModel")
 const bowlingModel = require("../Models/bowlingModel")
 const wicketModel = require("../Models/wicketModel")
@@ -11,10 +6,8 @@ const filterBatting = require("../Models/filterBatting")
 const bow_batModel = require("../Models/bow_batModel")
 const userModel = require("../Models/userModel")
 const drillModel = require("../Models/drillsModel")
-const gripModel = require("../Models/battingGrip")
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
-
 
 
 const createUser = async function (req, res) {
@@ -278,8 +271,5 @@ const getRoutine = async function (req, res) {
         })
     }
 };
-
-
-
 
 module.exports = { createUser, userLogin, createBattings, createBowlings, createWickets, postBowlings, getBowlings, postBattings, getBattings, bow_bat, createDrills, getRoutine }
