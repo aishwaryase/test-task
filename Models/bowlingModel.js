@@ -26,8 +26,8 @@ const bowlingSchema = new mongoose.Schema({
         type:Number,
         require:true
     },
-    W:{
-        type:Number,
+    threeW_fiveW:{
+        type:String,
         require:true
     },
     wicket_matche:{

@@ -18,8 +18,8 @@ const battingSchema = new mongoose.Schema({
         type:Number,
         require:true
     },
-    overs:{
-        type:Number,
+    fifty_hundred:{
+        type:String,
         require:true
     },
     average:{

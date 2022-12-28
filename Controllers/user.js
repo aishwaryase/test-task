@@ -30,7 +30,7 @@ const createUser = async function (req, res) {
     catch (err) {
         res.status(500).send({ status: false, error: err.message })
     }
-}
+};
 
 const userLogin = async function (req, res) {
     try {
@@ -79,7 +79,7 @@ const userLogin = async function (req, res) {
             msg: error.message
         })
     }
-}
+};
 
 const createBattings = async function (req, res) {
     try {
@@ -105,8 +105,7 @@ const createBattings = async function (req, res) {
             message: error.message
         })
     }
-}
-
+};
 // ========================================================================================
 
 const createBowlings = async function (req, res) {
@@ -134,7 +133,7 @@ const createBowlings = async function (req, res) {
             message: error.message
         })
     }
-}
+};
 // ==============================================================================
 const createWickets = async function (req, res) {
     try {
@@ -160,52 +159,83 @@ const createWickets = async function (req, res) {
             message: error.message
         })
     }
-}
+};
 //=============================================================================
 
 const postBowlings = async function (req, res) {
-    let data = req.body;
+    try {
+        let data = req.body;
 
-    const filterBow = await filterBowling.create(data)
-    return res.status(201).send({
-        status: true,
-        message: "filterbowling created successfully",
-        data: filterBow
-    })
-}
+        const filterBow = await filterBowling.create(data)
+        return res.status(201).send({
+            status: true,
+            message: "filterbowling created successfully",
+            data: filterBow
+        })
+    }
+    catch (error) {
+        return res.status(500).send({
+            status: false,
+            message: error.message
+        })
+    }
+};
 
 const getBowlings = async function (req, res) {
-    let body = req.query
-    const getBow = await filterBowling.find(body)
-    return res.status(200).send({
-        status: true,
-        message: 'Success',
-        data: getBow
-    })
-}
+    try {
+        let body = req.query
+        const getBow = await filterBowling.find(body)
+        return res.status(200).send({
+            status: true,
+            message: 'Success',
+            data: getBow
+        })
+    }
+    catch (error) {
+        return res.status(500).send({
+            status: false,
+            message: error.message
+        })
+    }
+};
 //========================================================================
 
-
 const postBattings = async function (req, res) {
-    let data = req.body;
+    try {
+        let data = req.body;
 
-    const filterBat = await filterBatting.create(data)
-    return res.status(201).send({
-        status: true,
-        message: "filterbatting created successfully",
-        data: filterBat
-    })
-}
+        const filterBat = await filterBatting.create(data)
+        return res.status(201).send({
+            status: true,
+            message: "filterbatting created successfully",
+            data: filterBat
+        })
+    }
+    catch (error) {
+        return res.status(500).send({
+            status: false,
+            message: error.message
+        })
+    }
+};
 
 const getBattings = async function (req, res) {
-    let body = req.query
-    const getBat = await filterBatting.find(body)
-    return res.status(200).send({
-        status: true,
-        message: 'Success',
-        data: getBat
-    })
-}
+    try {
+        let body = req.query
+        const getBat = await filterBatting.find(body)
+        return res.status(200).send({
+            status: true,
+            message: 'Success',
+            data: getBat
+        })
+    }
+    catch (error) {
+        return res.status(500).send({
+            status: false,
+            message: error.message
+        })
+    }
+};
 
 const bow_bat = async function (req, res) {
     try {
@@ -232,13 +262,13 @@ const createDrills = async function (req, res) {
     try {
         let data = req.body;
 
-        let { drills, date, time } = data
+        let { drills, date, time } = data;
 
         if (await drillModel.findOne({ date: date, time: time }))
             return res.status(400).send({ status: false, message: "You already have a routine set for this time" })
 
         const drillsCreated = await drillModel.create(data)
-        
+
         return res.status(201).send({
             message: "Success",
             data: drillsCreated
@@ -261,7 +291,6 @@ const getRoutine = async function (req, res) {
         return res.status(200).send({
             status: true,
             data: getDrills
-
         })
     }
     catch (error) {
