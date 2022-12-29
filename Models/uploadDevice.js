@@ -10,11 +10,11 @@ const uploadDeviceSchema = new mongoose.Schema({
         required: true
     },
     category:{
-        type : String, 
+        type : Number,
         required:true
     },
     add_tag:{
-        type : String, 
+        type : Number, 
         required:true
     }
     

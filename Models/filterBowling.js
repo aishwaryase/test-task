@@ -1,16 +1,19 @@
 const mongoose = require("mongoose")
 
 const filterBowling = new mongoose.Schema({
+    id:{
+        type:Number
+    },
     fast_bowling:{
-        type:String,
+        type:Number,
         require:true
     },
     leg_spin:{
-        type:String,
+        type:Number,
         require:true
     },
     off_spin:{
-        type:String,
+        type:Number,
         require:true
     },
 

@@ -10,12 +10,15 @@ Router.post("/:userId/bow_batPost",commnMid.jwtValidation,commnMid.authorization
 Router.post("/:userId/batting",commnMid.jwtValidation,commnMid.authorization, battingController.createBattings)
 Router.post("/:userId/bowling",commnMid.jwtValidation,commnMid.authorization, battingController.createBowlings)
 Router.post("/:userId/wicket",commnMid.jwtValidation,commnMid.authorization, battingController.createWickets)
-Router.post("/:userId/postBowlings",commnMid.jwtValidation,commnMid.authorization, battingController.postBowlings)
+Router.post("/:userId/bowlingTags",commnMid.jwtValidation,commnMid.authorization, battingController.bowlingTags)
 Router.get("/:userId/getBowlings",commnMid.jwtValidation,commnMid.authorization,battingController.getBowlings)
-Router.post("/:userId/postBattings",commnMid.jwtValidation,commnMid.authorization, battingController.postBattings)
+Router.post("/:userId/battingTags",commnMid.jwtValidation,commnMid.authorization, battingController.battingTags)
 Router.get("/:userId/getBattings",commnMid.jwtValidation,commnMid.authorization,battingController.getBattings)
 Router.post("/:userId/postDrills",commnMid.jwtValidation,commnMid.authorization, battingController.createDrills)
 Router.get("/:userId/getRoutine",commnMid.jwtValidation,commnMid.authorization, battingController.getRoutine)
+Router.post("/:userId/category", commnMid.jwtValidation, commnMid.authorization, battingController.category)
+Router.post("/:userId/getCategoy",commnMid.jwtValidation,commnMid.authorization, battingController.getCategory)
+Router.post("/:userId/getTags",commnMid.jwtValidation,commnMid.authorization, battingController.getTags)
 
 
 //************ checking your end point valid or not */

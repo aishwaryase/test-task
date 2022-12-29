@@ -1,44 +1,47 @@
 const mongoose = require("mongoose")
 
 const filterBatting = new mongoose.Schema({
+    id:{
+        type:Number
+    },
     backfoot:{
-        type:String,
+        type:Number,
         require:true
     },
     cover:{
-        type:String,
+        type:Number,
         require:true
     },
     flickshot:{
-        type:String,
+        type:Number,
         require:true
     },
     frontfoot:{
-        type:String,
+        type:Number,
         require:true
     },
     leaving_ball:{
-        type:String,
+        type:Number,
         require:true
     },
     on_drive:{
-        type:String,
+        type:Number,
         require:true
     },
     pullshot:{
-        type:String,
+        type:Number,
         require:true
     },
     square_cut:{
-        type:String,
+        type:Number,
         require:true
     },
     straight:{
-        type:String,
+        type:Number,
         require:true
     },
     sweepshot:{
-        type:String,
+        type:Number,
         require:true
     },
 
