@@ -9,6 +9,9 @@ const drillModel = require("../Models/drillsModel")
 const categoryModel = require("../Models/categoryModel")
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
+const curriculumModel = require("../Models/curriculumModel")
+const tagModel = require("../Models/tagModel")
+const { json } = require("express")
 
 
 
@@ -170,8 +173,8 @@ const category = async function (req, res) {
 
         let category = await categoryModel.create(data);
         let obj = {}
-        obj["id"] = category.id
-        obj["category"] = category.category
+        obj["category_id"] = category.category_id
+        obj["category_name"] = category.category_name
 
         return res.status(201).send({
             message: "category created successfully",
@@ -191,7 +194,7 @@ const getCategory = async function(req, res){
     try{
       let body = req.body;
 
-      const Category = await categoryModel.find(body).select({ id: 1, category: 1, _id: 0 });
+      const Category = await categoryModel.find(body).select({ category_id: 1, category_name: 1, _id: 0 });
 
       return res.status(200).send({
           status: true,
@@ -207,6 +210,51 @@ const getCategory = async function(req, res){
     }
 };
 //===================================================================
+const tag = async function (req, res) {
+    try {
+        let data = req.body;
+
+        let tags = await tagModel.create(data);
+        let obj = {}
+        obj["id"] = tags.id
+        obj["tag"] = tags.tag
+
+        return res.status(201).send({
+            message: "tags created successfully",
+            data: obj
+        })
+
+    }
+    catch (error) {
+        return res.status(500).send({
+            status: false,
+            message: error.message
+        })
+    }
+};
+
+const gettags = async function(req, res){
+    try{
+      let body = req.body;
+
+      const Tag = await tagModel.find(body).select({ id: 1, tag: 1, _id: 0 });
+
+      return res.status(200).send({
+          status: true,
+          message: "success", 
+          data: Tag
+      })
+    }
+    catch (error) {
+        return res.status(500).send({
+            status: false,
+            message: error.message
+        })
+    }
+};
+
+
+//===============================================================
 const battingTags = async function (req, res) {
     try {
         let data = req.body;
@@ -224,10 +272,13 @@ const battingTags = async function (req, res) {
         obj["square_cut"] = filterBat.square_cut
         obj["straight"] = filterBat.straight
         obj["sweepshot"] = filterBat.sweepshot
+        obj["fast_bowling"] = filterBow.fast_bowling
+        obj["leg_spin"] = filterBow.leg_spin
+        obj["off_spin"] = filterBow.off_spin
 
         return res.status(201).send({
             status: true,
-            message: "batting tags created successfully",
+            message: "success",
             data: obj
         })
     }
@@ -305,15 +356,23 @@ const getBowlings = async function (req, res) {
 const getTags = async function(req, res){
     try{
          let body = req.body;
+         body = JSON.parse(JSON.stringify(body));
 
-          let batTags = await filterBatting.find(body).select({ id:0,_id: 0, createdAt:0, updatedAt:0, __v:0 });
-          let bowTags = await filterBowling.find(body).select({ id:0,_id: 0, createdAt:0, updatedAt:0, __v:0 });
+          let category = await categoryModel.find(body).select({ _id: 0, createdAt:0, updatedAt:0, __v:0 });
+          let tags = await tagModel.find(body).select({ _id: 0, createdAt:0, updatedAt:0, __v:0 });
+          
+        // let combined = [...tags, ...category];
 
+        let newArr = [];
+        for( let i=0; i<category.length; i++){
+            if(tags[i].id == category[i].category_id){
+                newArr.push({id: tags[i].id, tag:tags[i].tag, category_id:category[i].category_id, category_name:category[i].category_name})
+            }
+        }
          return res.status(200).send({
             status: true,
             message: 'Success',
-            batTags: batTags,
-            bowTags: bowTags
+            data: newArr
         })
     }
     catch (error) {
@@ -391,5 +450,4 @@ const getRoutine = async function (req, res) {
     }
 };
 
-
-module.exports = { createUser, userLogin, createBattings, createBowlings, createWickets, bowlingTags, getBowlings, battingTags, getBattings, bow_bat, createDrills, getRoutine, category, getCategory, getTags }
+module.exports = { createUser, userLogin, createBattings, createBowlings, createWickets, bowlingTags, getBowlings, battingTags, getBattings, bow_bat, createDrills, getRoutine, category, getCategory, getTags, tag, gettags }

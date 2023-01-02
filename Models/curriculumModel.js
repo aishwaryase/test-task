@@ -1,13 +1,16 @@
 const mongoose = require("mongoose");
 
-const uploadDeviceSchema = new mongoose.Schema({
+const curriculumSchema = new mongoose.Schema({
     video: {
         type: String,
         require: true
     },
-    title:{
-        type: String,
-        required: true
+    thumb:{
+        type:String,
+        require: true
+    },
+    videoLength:{
+        type:Number
     },
     category:{
         type : Number,
@@ -20,4 +23,4 @@ const uploadDeviceSchema = new mongoose.Schema({
     
 }, { timestamps: true });
 
-module.exports = mongoose.model("uploadDevice", uploadDeviceSchema)
+module.exports = mongoose.model("curriculum", curriculumSchema)

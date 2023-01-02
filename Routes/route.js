@@ -17,8 +17,10 @@ Router.get("/:userId/getBattings",commnMid.jwtValidation,commnMid.authorization,
 Router.post("/:userId/postDrills",commnMid.jwtValidation,commnMid.authorization, battingController.createDrills)
 Router.get("/:userId/getRoutine",commnMid.jwtValidation,commnMid.authorization, battingController.getRoutine)
 Router.post("/:userId/category", commnMid.jwtValidation, commnMid.authorization, battingController.category)
-Router.post("/:userId/getCategoy",commnMid.jwtValidation,commnMid.authorization, battingController.getCategory)
-Router.post("/:userId/getTags",commnMid.jwtValidation,commnMid.authorization, battingController.getTags)
+Router.get("/:userId/Categoy",commnMid.jwtValidation,commnMid.authorization, battingController.getCategory)
+Router.get("/:userId/Tags",commnMid.jwtValidation,commnMid.authorization, battingController.getTags)
+Router.post("/:userId/tag",commnMid.jwtValidation,commnMid.authorization, battingController.tag)
+Router.get("/:userId/Tag",commnMid.jwtValidation,commnMid.authorization, battingController.gettags)
 
 
 //************ checking your end point valid or not */
