@@ -9,18 +9,13 @@ Router.post("/userlogin", battingController.userLogin)
 Router.post("/:userId/bow_batPost",commnMid.jwtValidation,commnMid.authorization, battingController.bow_bat)
 Router.post("/:userId/batting",commnMid.jwtValidation,commnMid.authorization, battingController.createBattings)
 Router.post("/:userId/bowling",commnMid.jwtValidation,commnMid.authorization, battingController.createBowlings)
-Router.post("/:userId/wicket",commnMid.jwtValidation,commnMid.authorization, battingController.createWickets)
-Router.post("/:userId/bowlingTags",commnMid.jwtValidation,commnMid.authorization, battingController.bowlingTags)
-Router.get("/:userId/getBowlings",commnMid.jwtValidation,commnMid.authorization,battingController.getBowlings)
-Router.post("/:userId/battingTags",commnMid.jwtValidation,commnMid.authorization, battingController.battingTags)
-Router.get("/:userId/getBattings",commnMid.jwtValidation,commnMid.authorization,battingController.getBattings)
-Router.post("/:userId/postDrills",commnMid.jwtValidation,commnMid.authorization, battingController.createDrills)
+Router.post("/:userId/wicketKeeping",commnMid.jwtValidation,commnMid.authorization, battingController.createWickets)
+Router.post("/:userId/postDrills",commnMid.jwtValidation,commnMid.authorization, battingController.createRoutine)
 Router.get("/:userId/getRoutine",commnMid.jwtValidation,commnMid.authorization, battingController.getRoutine)
 Router.post("/:userId/category", commnMid.jwtValidation, commnMid.authorization, battingController.category)
-Router.get("/:userId/Categoy",commnMid.jwtValidation,commnMid.authorization, battingController.getCategory)
-Router.get("/:userId/Tags",commnMid.jwtValidation,commnMid.authorization, battingController.getTags)
 Router.post("/:userId/tag",commnMid.jwtValidation,commnMid.authorization, battingController.tag)
-Router.get("/:userId/Tag",commnMid.jwtValidation,commnMid.authorization, battingController.gettags)
+Router.get("/:userId/Tags",commnMid.jwtValidation,commnMid.authorization, battingController.getTags)
+
 
 
 //************ checking your end point valid or not */

@@ -1,20 +1,17 @@
 const battingModel = require("../Models/battingModel")
 const bowlingModel = require("../Models/bowlingModel")
 const wicketModel = require("../Models/wicketModel")
-const filterBowling = require("../Models/filterBowling")
-const filterBatting = require("../Models/filterBatting")
 const bow_batModel = require("../Models/bow_batModel")
 const userModel = require("../Models/userModel")
 const drillModel = require("../Models/drillsModel")
 const categoryModel = require("../Models/categoryModel")
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
-const curriculumModel = require("../Models/curriculumModel")
 const tagModel = require("../Models/tagModel")
-const { json } = require("express")
+// const { json } = require("express")
+// const { listenerCount } = require("../Models/battingModel")
 
-
-
+//==========================[user register]==============================
 const createUser = async function (req, res) {
     try {
         let data = req.body;
@@ -37,6 +34,7 @@ const createUser = async function (req, res) {
     }
 };
 
+//==========================[user login]==============================
 const userLogin = async function (req, res) {
     try {
         let data = req.body
@@ -86,6 +84,30 @@ const userLogin = async function (req, res) {
     }
 };
 
+//===========================[create bat_bow]===============================
+
+const bow_bat = async function (req, res) {
+    try {
+        let data = req.body;
+        data = JSON.parse(JSON.stringify(data));
+
+        const actionCreated = await bow_batModel.create(data)
+
+        return res.status(201).send({
+            status: true,
+            message: "Success",
+            data: actionCreated
+        })
+    }
+    catch (error) {
+        return res.status(500).send({
+            status: false,
+            message: error.message
+        })
+    }
+};
+
+//==========================[progress screen (batting)]==============================
 const createBattings = async function (req, res) {
     try {
         let data = req.body
@@ -111,7 +133,7 @@ const createBattings = async function (req, res) {
         })
     }
 };
-// ========================================================================================
+//==========================[progress screen (bowling)]==============================
 
 const createBowlings = async function (req, res) {
     try {
@@ -139,7 +161,7 @@ const createBowlings = async function (req, res) {
         })
     }
 };
-// ==============================================================================
+//==========================[progress screen (wicket)]==============================
 const createWickets = async function (req, res) {
     try {
 
@@ -164,9 +186,7 @@ const createWickets = async function (req, res) {
         })
     }
 };
-//=============================================================================
-
-
+//==========================[create category]==============================
 const category = async function (req, res) {
     try {
         let data = req.body;
@@ -189,35 +209,18 @@ const category = async function (req, res) {
         })
     }
 };
+//==========================[create tag]==============================
 
-const getCategory = async function(req, res){
-    try{
-      let body = req.body;
-
-      const Category = await categoryModel.find(body).select({ category_id: 1, category_name: 1, _id: 0 });
-
-      return res.status(200).send({
-          status: true,
-          message: "success", 
-          data: Category
-      })
-    }
-    catch (error) {
-        return res.status(500).send({
-            status: false,
-            message: error.message
-        })
-    }
-};
-//===================================================================
 const tag = async function (req, res) {
     try {
         let data = req.body;
 
         let tags = await tagModel.create(data);
         let obj = {}
-        obj["id"] = tags.id
+        obj["tag_id"] = tags.tag_id
         obj["tag"] = tags.tag
+        obj["category_id"] = tags.category_id
+        obj["category_name"] = tags.category_name
 
         return res.status(201).send({
             message: "tags created successfully",
@@ -233,146 +236,19 @@ const tag = async function (req, res) {
     }
 };
 
-const gettags = async function(req, res){
-    try{
-      let body = req.body;
-
-      const Tag = await tagModel.find(body).select({ id: 1, tag: 1, _id: 0 });
-
-      return res.status(200).send({
-          status: true,
-          message: "success", 
-          data: Tag
-      })
-    }
-    catch (error) {
-        return res.status(500).send({
-            status: false,
-            message: error.message
-        })
-    }
-};
-
-
-//===============================================================
-const battingTags = async function (req, res) {
-    try {
-        let data = req.body;
-
-        const filterBat = await filterBatting.create(data)
-
-        let obj = {}
-        obj["backfoot"] = filterBat.backfoot
-        obj["cover"] = filterBat.cover
-        obj["flickshot"] = filterBat.flickshot
-        obj["frontfoot"] = filterBat.frontfoot
-        obj["leaving_ball"] = filterBat.leaving_ball
-        obj["on_drive"] = filterBat.on_drive
-        obj["pullshot"] = filterBat.pullshot
-        obj["square_cut"] = filterBat.square_cut
-        obj["straight"] = filterBat.straight
-        obj["sweepshot"] = filterBat.sweepshot
-        obj["fast_bowling"] = filterBow.fast_bowling
-        obj["leg_spin"] = filterBow.leg_spin
-        obj["off_spin"] = filterBow.off_spin
-
-        return res.status(201).send({
-            status: true,
-            message: "success",
-            data: obj
-        })
-    }
-    catch (error) {
-        return res.status(500).send({
-            status: false,
-            message: error.message
-        })
-    }
-};
-
-const getBattings = async function (req, res) {
-    try {
-        let body = req.query
-        const getBat = await filterBatting.findOne({id:1}).select({id:0, _id: 0, createdAt:0, updatedAt:0, __v:0 });
-        return res.status(200).send({
-            status: true,
-            message: 'Success',
-            data: getBat
-        })
-    }
-    catch (error) {
-        return res.status(500).send({
-            status: false,
-            message: error.message
-        })
-    }
-};
-//=======================================================
-
-const bowlingTags = async function (req, res) {
-    try {
-        let data = req.body;
-
-        const filterBow = await filterBowling.create(data)
-
-        let obj = {}
-        obj["fast_bowling"] = filterBow.fast_bowling
-        obj["leg_spin"] = filterBow.leg_spin
-        obj["off_spin"] = filterBow.off_spin
-        
-        return res.status(201).send({
-            status: true,
-            message: "bowling tags created successfully",
-            data: obj
-        })
-    }
-    catch (error) {
-        return res.status(500).send({
-            status: false,
-            message: error.message
-        })
-    }
-};
-
-const getBowlings = async function (req, res) {
-    try {
-        let body = req.query
-        const getBow = await filterBowling.find(body).select({ id:0,_id: 0, createdAt:0, updatedAt:0, __v:0 });
-        return res.status(200).send({
-            status: true,
-            message: 'Success',
-            data: getBow
-        })
-    }
-    catch (error) {
-        return res.status(500).send({
-            status: false,
-            message: error.message
-        })
-    }
-};
 //========================================================================
 
 const getTags = async function(req, res){
     try{
-         let body = req.body;
-         body = JSON.parse(JSON.stringify(body));
-
-          let category = await categoryModel.find(body).select({ _id: 0, createdAt:0, updatedAt:0, __v:0 });
-          let tags = await tagModel.find(body).select({ _id: 0, createdAt:0, updatedAt:0, __v:0 });
-          
-        // let combined = [...tags, ...category];
-
-        let newArr = [];
-        for( let i=0; i<category.length; i++){
-            if(tags[i].id == category[i].category_id){
-                newArr.push({id: tags[i].id, tag:tags[i].tag, category_id:category[i].category_id, category_name:category[i].category_name})
-            }
-        }
+    
+        let body = req.body;
+  
+        const Tag = await tagModel.find(body).select({ tag_id: 1, tag: 1, category_id:1, category_name:1, _id: 0 });
+  
          return res.status(200).send({
             status: true,
-            message: 'Success',
-            data: newArr
+            data: Tag
+            
         })
     }
     catch (error) {
@@ -382,31 +258,10 @@ const getTags = async function(req, res){
         })
     }
 }
-//==========================================================
 
-const bow_bat = async function (req, res) {
-    try {
-        let data = req.body;
-        data = JSON.parse(JSON.stringify(data));
-
-        const actionCreated = await bow_batModel.create(data)
-
-        return res.status(201).send({
-            status: true,
-            message: "Success",
-            data: actionCreated
-        })
-    }
-    catch (error) {
-        return res.status(500).send({
-            status: false,
-            message: error.message
-        })
-    }
-};
 //===================================================
 
-const createDrills = async function (req, res) {
+const createRoutine = async function (req, res) {
     try {
         let data = req.body;
 
@@ -450,4 +305,4 @@ const getRoutine = async function (req, res) {
     }
 };
 
-module.exports = { createUser, userLogin, createBattings, createBowlings, createWickets, bowlingTags, getBowlings, battingTags, getBattings, bow_bat, createDrills, getRoutine, category, getCategory, getTags, tag, gettags }
+module.exports = { createUser, userLogin, createBattings, createBowlings, createWickets, bow_bat, createRoutine, getRoutine, category, getTags, tag }

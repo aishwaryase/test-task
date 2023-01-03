@@ -5,6 +5,13 @@ const uploadDeviceSchema = new mongoose.Schema({
         type: String,
         require: true
     },
+    thumbnail:{
+        type:String,
+        require: true
+    },
+    videoLength:{
+        type:String
+    },
     title:{
         type: String,
         required: true
