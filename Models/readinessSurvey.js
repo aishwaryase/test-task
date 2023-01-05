@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
 
 const readinessSurvey = new mongoose.Schema({
-
-
+    
     Sleep : { type : Number, require : true },
     Mood : { type : Number, require : true },
     Energy : { type : Number, require :true },
