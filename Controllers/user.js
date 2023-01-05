@@ -5,11 +5,11 @@ const bow_batModel = require("../Models/bow_batModel")
 const userModel = require("../Models/userModel")
 const drillModel = require("../Models/drillsModel")
 const categoryModel = require("../Models/categoryModel")
+const tagModel = require("../Models/tagModel")
+const profileModel = require("../Models/profile")
+const readinessSurveyModel = require("../Models/readinessSurvey")
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
-const tagModel = require("../Models/tagModel")
-// const { json } = require("express")
-// const { listenerCount } = require("../Models/battingModel")
 
 //==========================[user register]==============================
 const createUser = async function (req, res) {
@@ -38,15 +38,15 @@ const createUser = async function (req, res) {
 const userLogin = async function (req, res) {
     try {
         let data = req.body
-        let { email, password } = data
-
+        let { email, password } = data;
+       
         let user = await userModel.findOne({ email: email })
         if (!user) {
             return res.status(400).send({
                 status: false,
                 msg: "Email and Password is Invalid"
             })
-        }
+        };
 
         let compared = await bcrypt.compare(password, user.password)
         if (!compared) {
@@ -56,11 +56,20 @@ const userLogin = async function (req, res) {
             })
         };
 
+        let check = await profileModel.findOne({ email: email });
+        let type = check ? "Yes" : "No";
+        // console.log(type)
+        user.user_details_submit = type;
+
+        // let check2 = await bow_batModel.findOne();
+        // let type2 = check2 ? "yes" : "no";
+        // console.log(type2)
+        // user.questions = type2;
+
         let token = jwt.sign({
             userId: user._id,
-        }, "project",
+        }, "project")
 
-        )
         return res.status(200).send({
             status: true,
             msg: "User login successfull",
@@ -72,6 +81,8 @@ const userLogin = async function (req, res) {
                 signup_as: user.signup_as,
                 email: user.email,
                 password: user.password,
+                user_details_submit: user.user_details_submit,
+                // questions: user.questions,
                 token: token
             }
         })
@@ -264,11 +275,11 @@ const getTags = async function(req, res){
 const createRoutine = async function (req, res) {
     try {
         let data = req.body;
-
         let { drills, date, time } = data;
 
         if (await drillModel.findOne({ date: date, time: time }))
             return res.status(400).send({ status: false, message: "You already have a routine set for this time" })
+
 
         const drillsCreated = await drillModel.create(data)
 
@@ -305,4 +316,34 @@ const getRoutine = async function (req, res) {
     }
 };
 
-module.exports = { createUser, userLogin, createBattings, createBowlings, createWickets, bow_bat, createRoutine, getRoutine, category, getTags, tag }
+//==========================[part-2 (readinessSurveyModel)]===============================
+const readinessSurvey = async function(req, res){
+    try {
+        let data = req.body
+        
+        const createReadinessSurvey = await readinessSurveyModel.create(data)
+
+        let obj = {}
+        obj["Sleep"] = createReadinessSurvey.Sleep
+        obj["Mood"] = createReadinessSurvey.Mood
+        obj["Energy"] = createReadinessSurvey.Energy
+        obj["Stressed"] = createReadinessSurvey.Stressed
+        obj["Sore"] = createReadinessSurvey.Sore
+        obj["Heart_rate"] = createReadinessSurvey.Heart_rate
+        obj["Urine_color"] = createReadinessSurvey.Urine_color
+    
+        return res.status(201).send({
+            status: true,
+            message: "Created successfully",
+            data: obj
+        })
+    }
+    catch (error) {
+        return res.status(500).send({
+            status: false,
+            message: error.message
+        })
+    }
+}
+
+module.exports = { createUser, userLogin, createBattings, createBowlings, createWickets, bow_bat, createRoutine, getRoutine, category, getTags, tag, readinessSurvey }
