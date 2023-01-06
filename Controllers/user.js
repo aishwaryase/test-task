@@ -1,15 +1,15 @@
-const battingModel = require("../Models/battingModel")
-const bowlingModel = require("../Models/bowlingModel")
-const wicketModel = require("../Models/wicketModel")
-const bow_batModel = require("../Models/bow_batModel")
-const userModel = require("../Models/userModel")
-const drillModel = require("../Models/drillsModel")
-const categoryModel = require("../Models/categoryModel")
-const tagModel = require("../Models/tagModel")
-const profileModel = require("../Models/profile")
-const readinessSurveyModel = require("../Models/readinessSurvey")
-const jwt = require("jsonwebtoken")
-const bcrypt = require("bcrypt")
+const battingModel = require("../Models/battingModel");
+const bowlingModel = require("../Models/bowlingModel");
+const wicketModel = require("../Models/wicketModel");
+const bow_batModel = require("../Models/bow_batModel");
+const userModel = require("../Models/userModel");
+const drillModel = require("../Models/drillsModel");
+const categoryModel = require("../Models/categoryModel");
+const tagModel = require("../Models/tagModel");
+const profileModel = require("../Models/profile");
+const readinessSurveyModel = require("../Models/readinessSurvey");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 //==========================[user register]==============================
 const createUser = async function (req, res) {
@@ -33,13 +33,13 @@ const createUser = async function (req, res) {
         res.status(500).send({ status: false, error: err.message })
     }
 };
-
 //==========================[user login]==============================
+
 const userLogin = async function (req, res) {
     try {
         let data = req.body
         let { email, password } = data;
-       
+
         let user = await userModel.findOne({ email: email })
         if (!user) {
             return res.status(400).send({
@@ -58,10 +58,11 @@ const userLogin = async function (req, res) {
 
         let check = await profileModel.findOne({ email: email });
         let type = check ? "Yes" : "No";
-        // console.log(type)
+        console.log(type)
         user.user_details_submit = type;
 
-        // let check2 = await bow_batModel.findOne();
+        // let check2 = await bow_batModel.find();
+        // console.log(check2)
         // let type2 = check2 ? "yes" : "no";
         // console.log(type2)
         // user.questions = type2;
@@ -82,7 +83,7 @@ const userLogin = async function (req, res) {
                 email: user.email,
                 password: user.password,
                 user_details_submit: user.user_details_submit,
-                // questions: user.questions,
+                questions: user.questions,
                 token: token
             }
         })
@@ -94,7 +95,6 @@ const userLogin = async function (req, res) {
         })
     }
 };
-
 //===========================[create bat_bow]===============================
 
 const bow_bat = async function (req, res) {
@@ -117,8 +117,8 @@ const bow_bat = async function (req, res) {
         })
     }
 };
-
 //==========================[progress screen (batting)]==============================
+
 const createBattings = async function (req, res) {
     try {
         let data = req.body
@@ -148,7 +148,6 @@ const createBattings = async function (req, res) {
 
 const createBowlings = async function (req, res) {
     try {
-
         let data = req.body
         //***********check if the body is empty**************//
         if (Object.keys(data).length == 0) {
@@ -173,6 +172,7 @@ const createBowlings = async function (req, res) {
     }
 };
 //==========================[progress screen (wicket)]==============================
+
 const createWickets = async function (req, res) {
     try {
 
@@ -220,6 +220,26 @@ const category = async function (req, res) {
         })
     }
 };
+//==========================[Get Category]==============================
+const getCategory = async function (req, res) {
+    try {
+        let body = req.body;
+
+        const Category = await categoryModel.find(body).select({ category_id: 1, category_name: 1, _id: 0 });
+
+        return res.status(200).send({
+            status: true,
+            message: "success",
+            data: Category
+        })
+    }
+    catch (error) {
+        return res.status(500).send({
+            status: false,
+            message: error.message
+        })
+    }
+};
 //==========================[create tag]==============================
 
 const tag = async function (req, res) {
@@ -237,7 +257,6 @@ const tag = async function (req, res) {
             message: "tags created successfully",
             data: obj
         })
-
     }
     catch (error) {
         return res.status(500).send({
@@ -246,20 +265,17 @@ const tag = async function (req, res) {
         })
     }
 };
-
 //========================================================================
 
-const getTags = async function(req, res){
-    try{
-    
+const getTags = async function (req, res) {
+    try {
         let body = req.body;
-  
-        const Tag = await tagModel.find(body).select({ tag_id: 1, tag: 1, category_id:1, category_name:1, _id: 0 });
-  
-         return res.status(200).send({
+
+        const Tag = await tagModel.find(body).select({ tag_id: 1, tag: 1, category_id: 1, category_name: 1, _id: 0 });
+
+        return res.status(200).send({
             status: true,
             data: Tag
-            
         })
     }
     catch (error) {
@@ -268,8 +284,7 @@ const getTags = async function(req, res){
             message: error.message
         })
     }
-}
-
+};
 //===================================================
 
 const createRoutine = async function (req, res) {
@@ -279,7 +294,6 @@ const createRoutine = async function (req, res) {
 
         if (await drillModel.findOne({ date: date, time: time }))
             return res.status(400).send({ status: false, message: "You already have a routine set for this time" })
-
 
         const drillsCreated = await drillModel.create(data)
 
@@ -315,12 +329,12 @@ const getRoutine = async function (req, res) {
         })
     }
 };
-
 //==========================[part-2 (readinessSurveyModel)]===============================
-const readinessSurvey = async function(req, res){
+
+const readinessSurvey = async function (req, res) {
     try {
         let data = req.body
-        
+
         const createReadinessSurvey = await readinessSurveyModel.create(data)
 
         let obj = {}
@@ -331,7 +345,7 @@ const readinessSurvey = async function(req, res){
         obj["Sore"] = createReadinessSurvey.Sore
         obj["Heart_rate"] = createReadinessSurvey.Heart_rate
         obj["Urine_color"] = createReadinessSurvey.Urine_color
-    
+
         return res.status(201).send({
             status: true,
             message: "Created successfully",
@@ -344,6 +358,6 @@ const readinessSurvey = async function(req, res){
             message: error.message
         })
     }
-}
+};
 
-module.exports = { createUser, userLogin, createBattings, createBowlings, createWickets, bow_bat, createRoutine, getRoutine, category, getTags, tag, readinessSurvey }
+module.exports = { createUser, userLogin, createBattings, createBowlings, createWickets, bow_bat, createRoutine, getRoutine, category, getCategory, getTags, tag, readinessSurvey }

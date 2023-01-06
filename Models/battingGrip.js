@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
 const gripSchema = new mongoose.Schema({
-    num_reps:{
-        type:Number,
-        require:true
+    num_reps: {
+        type: Number,
+        require: true
     },
-    num_sets:{
-        type:Number,
-        require:true
+    num_sets: {
+        type: Number,
+        require: true
     },
     video: {
         type: String,

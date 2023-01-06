@@ -4,25 +4,25 @@ const bow_batSchema = new mongoose.Schema({
 
     bat_hand: {
         type: String,
-        require:true
+        require: true
     },
     bowl_hand: {
         type: String,
-        require:true
+        require: true
     },
     batting_order: {
         type: String,
-        require:true
+        require: true
     },
     bowling_order: {
         type: String,
-        require:true
+        require: true
     },
-    wicket_keeper:{
-        type:String,
-        require:true
+    wicket_keeper: {
+        type: String,
+        require: true
     }
-     
+
 }, { timestamps: true });
 
 module.exports = mongoose.model("bow_bat", bow_batSchema)

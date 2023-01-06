@@ -5,26 +5,26 @@ const uploadDeviceSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-    thumbnail:{
-        type:String,
+    thumbnail: {
+        type: String,
         require: true
     },
-    videoLength:{
-        type:String
+    videoLength: {
+        type: String
     },
-    title:{
+    title: {
         type: String,
         required: true
     },
-    category:{
-        type : Number,
-        required:true
+    category: {
+        type: Number,
+        required: true
     },
-    tag:{
-        type : Number, 
-        required:true
+    tag: {
+        type: Number,
+        required: true
     }
-    
+
 }, { timestamps: true });
 
 module.exports = mongoose.model("uploadDevice", uploadDeviceSchema)
