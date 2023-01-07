@@ -3,15 +3,15 @@ const mongoose = require("mongoose");
 const drillSchema = new mongoose.Schema({
     drills: {
         type: String,
-        required: true
+        require: true
     },
     date: {
         type: String,
-        required: true
+        require: true
     },
     time: {
         type: String,
-        required: true
+        require: true
     }
 }, { timestamps: true });
 

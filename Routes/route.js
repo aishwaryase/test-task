@@ -16,6 +16,8 @@ Router.get("/:userId/Categoy",commnMid.jwtValidation,commnMid.authorization, bat
 Router.post("/:userId/tag",commnMid.jwtValidation,commnMid.authorization, battingController.tag)
 Router.get("/:userId/Tags",commnMid.jwtValidation,commnMid.authorization, battingController.getTags)
 Router.post("/:userId/readinessSurvey", commnMid.jwtValidation,commnMid.authorization, battingController.readinessSurvey)
+Router.post("/:userId/PowerTest",commnMid.jwtValidation,commnMid.authorization, battingController.createPowerTest)
+Router.post("/:userId/StrengthTest",commnMid.jwtValidation,commnMid.authorization, battingController.createStrengthTest)
 
 //===================== checking your end point valid or not =======================//
 Router.all("/**", function (req, res) {

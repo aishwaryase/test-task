@@ -8,6 +8,8 @@ const categoryModel = require("../Models/categoryModel");
 const tagModel = require("../Models/tagModel");
 const profileModel = require("../Models/profile");
 const readinessSurveyModel = require("../Models/readinessSurvey");
+const powerTestModel = require("../Models/power_testModel");
+const strengthTestModel = require("../Models/strength_testModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
@@ -289,12 +291,12 @@ const getTags = async function (req, res) {
 const createRoutine = async function (req, res) {
     try {
         let data = req.body;
-        let { drills, date, time } = data;
+        let { drills, time } = data;
 
         if (await drillModel.findOne({ date: date, time: time }))
             return res.status(400).send({ status: false, message: "You already have a routine set for this time" })
 
-        const drillsCreated = await drillModel.create(data)
+        const drillsCreated = await drillModel.create(data);
 
         return res.status(201).send({
             message: "Success",
@@ -358,5 +360,68 @@ const readinessSurvey = async function (req, res) {
         })
     }
 };
+//==============================[part-2 (Test Details)]========================
+const createPowerTest = async function (req, res) {
+    try {
+        let data = req.body;
 
-module.exports = { createUser, userLogin, createBattings, createBowlings, createWickets, bow_bat, createRoutine, getRoutine, category, getCategory, getTags, tag, readinessSurvey }
+        const powerTest = await powerTestModel.create(data);
+
+        let obj = {};
+
+        obj["vertical_jump"] = powerTest.vertical_jump
+        obj["squat_jump"] = powerTest.squat_jump
+        obj["standing_broad_jump"] = powerTest.standing_broad_jump
+        obj["ball_chest_throw"] = powerTest.ball_chest_throw
+        obj["hang_cleans"] = powerTest.hang_cleans
+        obj["cleans"] = powerTest.cleans
+        obj["power_cleans"] = powerTest.power_cleans
+        obj["snatch_floor"] = powerTest.snatch_floor
+        obj["hang_snatch"] = powerTest.hang_snatch
+        obj["split_jerk"] = powerTest.split_jerk
+
+        return res.status(201).send({
+            status: true,
+            message: "Created successfully",
+            data: obj
+        })
+    }
+    catch (error) {
+        return res.status(500).send({
+            status: false,
+            message: error.message
+        })
+    }
+};
+
+//====================================[part-2 (Stength Test)]======================
+
+const createStrengthTest = async function (req, res) {
+    try {
+        let data = req.body;
+
+        const strengthTest = await strengthTestModel.create(data);
+
+        let obj = {};
+
+        obj["back_squats"] = strengthTest.back_squats
+        obj["front_squats"] = strengthTest.front_squats
+        obj["conventional_deadlifts"] = strengthTest.conventional_deadlifts
+        obj["barbell_bench_press"] = strengthTest.barbell_bench_press
+        obj["barbell_bench_pulls"] = strengthTest.barbell_bench_pulls
+
+        return res.status(201).send({
+            status: true,
+            message: "Created successfully",
+            data: obj
+        })
+    }
+    catch (error) {
+        return res.status(500).send({
+            status: false,
+            message: error.message
+        })
+    }
+}
+
+module.exports = { createUser, userLogin, createBattings, createBowlings, createWickets, bow_bat, createRoutine, getRoutine, category, getCategory, getTags, tag, readinessSurvey, createPowerTest, createStrengthTest }

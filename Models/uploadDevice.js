@@ -14,7 +14,7 @@ const uploadDeviceSchema = new mongoose.Schema({
     },
     title: {
         type: String,
-        required: true
+        require: true
     },
     category: {
         type: Number,
@@ -22,7 +22,7 @@ const uploadDeviceSchema = new mongoose.Schema({
     },
     tag: {
         type: Number,
-        required: true
+        require: true
     }
 
 }, { timestamps: true });
