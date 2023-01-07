@@ -3,7 +3,6 @@ const battingController = require("../Controllers/user")
 const commnMid = require("../Middleware/Auth")
 const Router = express.Router()
 
-
 Router.post("/user", battingController.createUser)
 Router.post("/userlogin", battingController.userLogin)
 Router.post("/:userId/bow_batPost",commnMid.jwtValidation,commnMid.authorization, battingController.bow_bat)
@@ -18,15 +17,13 @@ Router.post("/:userId/tag",commnMid.jwtValidation,commnMid.authorization, battin
 Router.get("/:userId/Tags",commnMid.jwtValidation,commnMid.authorization, battingController.getTags)
 Router.post("/:userId/readinessSurvey", commnMid.jwtValidation,commnMid.authorization, battingController.readinessSurvey)
 
-
-//************ checking your end point valid or not */
+//===================== checking your end point valid or not =======================//
 Router.all("/**", function (req, res) {
     res.status(404).send({
         status: false,
         message: "Make Sure Your Endpoint is Correct or Not!"
     })
 })
-
-module.exports = Router
+module.exports = Router;
 
 

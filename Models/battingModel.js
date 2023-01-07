@@ -29,7 +29,7 @@ const battingSchema = new mongoose.Schema({
     level: {
         type: Number,
         require: true
-    },
+    }
 
 }, { timestamps: true });
 

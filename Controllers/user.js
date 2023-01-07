@@ -58,10 +58,9 @@ const userLogin = async function (req, res) {
 
         let check = await profileModel.findOne({ email: email });
         let type = check ? "Yes" : "No";
-        console.log(type)
         user.user_details_submit = type;
 
-        // let check2 = await bow_batModel.find();
+        // let check2 = await bow_batModel.findOne();
         // console.log(check2)
         // let type2 = check2 ? "yes" : "no";
         // console.log(type2)
