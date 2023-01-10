@@ -15,4 +15,4 @@ const drillSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-module.exports = mongoose.model("drill", drillSchema)
+module.exports = mongoose.model("routine", drillSchema)

@@ -15,6 +15,7 @@ Router.post("/:userId/category", commnMid.jwtValidation, commnMid.authorization,
 Router.get("/:userId/Categoy",commnMid.jwtValidation,commnMid.authorization, battingController.getCategory)
 Router.post("/:userId/tag",commnMid.jwtValidation,commnMid.authorization, battingController.tag)
 Router.get("/:userId/Tags",commnMid.jwtValidation,commnMid.authorization, battingController.getTags)
+Router.get("/:userId/getMyDrill",commnMid.jwtValidation,commnMid.authorization,battingController.getMyDrills)
 Router.post("/:userId/readinessSurvey", commnMid.jwtValidation,commnMid.authorization, battingController.readinessSurvey)
 Router.post("/:userId/PowerTest",commnMid.jwtValidation,commnMid.authorization, battingController.createPowerTest)
 Router.post("/:userId/StrengthTest",commnMid.jwtValidation,commnMid.authorization, battingController.createStrengthTest)

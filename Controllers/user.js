@@ -3,10 +3,11 @@ const bowlingModel = require("../Models/bowlingModel");
 const wicketModel = require("../Models/wicketModel");
 const bow_batModel = require("../Models/bow_batModel");
 const userModel = require("../Models/userModel");
-const drillModel = require("../Models/drillsModel");
+const routineModel = require("../Models/routineModel");
 const categoryModel = require("../Models/categoryModel");
 const tagModel = require("../Models/tagModel");
 const profileModel = require("../Models/profile");
+const myDrillModel = require("../Models/myDrillModel");
 const readinessSurveyModel = require("../Models/readinessSurvey");
 const powerTestModel = require("../Models/power_testModel");
 const strengthTestModel = require("../Models/strength_testModel");
@@ -62,7 +63,10 @@ const userLogin = async function (req, res) {
         let type = check ? "Yes" : "No";
         user.user_details_submit = type;
 
-        // let check2 = await bow_batModel.findOne();
+        let userId = req.params
+        console.log(userId)
+
+        // let check2 = await bow_batModel.findOne({id: userId});
         // console.log(check2)
         // let type2 = check2 ? "yes" : "no";
         // console.log(type2)
@@ -291,16 +295,16 @@ const getTags = async function (req, res) {
 const createRoutine = async function (req, res) {
     try {
         let data = req.body;
-        let { drills, time } = data;
+        let { drills,date, time } = data;
 
-        if (await drillModel.findOne({ date: date, time: time }))
+        if (await routineModel.findOne({ date: date, time: time }))
             return res.status(400).send({ status: false, message: "You already have a routine set for this time" })
 
-        const drillsCreated = await drillModel.create(data);
+        const routinesCreated = await routineModel.create(data);
 
         return res.status(201).send({
             message: "Success",
-            data: drillsCreated
+            data: routinesCreated
         })
     }
     catch (error) {
@@ -316,11 +320,31 @@ const getRoutine = async function (req, res) {
     try {
         let data = req.body;
 
-        const getDrills = await drillModel.find(data).sort({ time: data.time })
+        const getDrills = await routineModel.find(data).sort({ time: data.time })
 
         return res.status(200).send({
             status: true,
             data: getDrills
+        })
+    }
+    catch (error) {
+        return res.status(500).send({
+            status: false,
+            message: error.message
+        })
+    }
+};
+//======================================================================
+const getMyDrills = async function (req, res) {
+    try {
+        let body = req.body;
+
+        const drills = await myDrillModel.find(body).select({ title: 1, category: 1, repetation: 1, sets: 1, _id: 0 });
+
+        return res.status(200).send({
+            status: true,
+            message: "success",
+            data: drills
         })
     }
     catch (error) {
@@ -424,4 +448,4 @@ const createStrengthTest = async function (req, res) {
     }
 }
 
-module.exports = { createUser, userLogin, createBattings, createBowlings, createWickets, bow_bat, createRoutine, getRoutine, category, getCategory, getTags, tag, readinessSurvey, createPowerTest, createStrengthTest }
+module.exports = { createUser, userLogin, createBattings, createBowlings, createWickets, bow_bat, createRoutine, getRoutine, category, getCategory, getTags, tag, getMyDrills, readinessSurvey, createPowerTest, createStrengthTest }
