@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const OnGoingDrillSchema = new mongoose.Schema({
     title: {
@@ -17,37 +18,21 @@ const OnGoingDrillSchema = new mongoose.Schema({
         type: Number,
         require: true
     },
-    videos: {
-        type: [String],
+    videos: [{
+        type: String,
+        require: true
+    }],
+    recommendation: {
+        type: String,
         require: true
     },
-    recommendation:{
-        anecdote_no: {
-            type:Number
-        },
-        mesage : {
-            type:String
-        },
-        audioFile : {
-            type:String
-        },
-        audiolength : {
-            type:String
-        },
-        createdat :{
-            type:String
-        },
-        manual :{
-            type: String
-        }
+    remarks: {
+        type: String,
+        require: true
     },
-    remarks:{
-        type:String,
-        require:true
-    },
-    score:{
-        type:Number,
-        require:true
+    score: {
+        type: Number,
+        require: true
     }
 }, { timestamps: true });
 

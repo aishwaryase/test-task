@@ -295,7 +295,7 @@ const getTags = async function (req, res) {
 const createRoutine = async function (req, res) {
     try {
         let data = req.body;
-        let { drills,date, time } = data;
+        let { drills, date, time } = data;
 
         if (await routineModel.findOne({ date: date, time: time }))
             return res.status(400).send({ status: false, message: "You already have a routine set for this time" })
@@ -318,7 +318,7 @@ const createRoutine = async function (req, res) {
 
 const getRoutine = async function (req, res) {
     try {
-        let data = req.body;
+        let data = req.query;
 
         const getDrills = await routineModel.find(data).sort({ time: data.time })
 
