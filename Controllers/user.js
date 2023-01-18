@@ -1,18 +1,18 @@
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const tagModel = require("../Models/tagModel");
+const userModel = require("../Models/userModel");
+const profileModel = require("../Models/profile");
+const wicketModel = require("../Models/wicketModel");
 const battingModel = require("../Models/battingModel");
 const bowlingModel = require("../Models/bowlingModel");
-const wicketModel = require("../Models/wicketModel");
 const bow_batModel = require("../Models/bow_batModel");
-const userModel = require("../Models/userModel");
 const routineModel = require("../Models/routineModel");
-const categoryModel = require("../Models/categoryModel");
-const tagModel = require("../Models/tagModel");
-const profileModel = require("../Models/profile");
 const myDrillModel = require("../Models/myDrillModel");
-const readinessSurveyModel = require("../Models/readinessSurvey");
+const categoryModel = require("../Models/categoryModel");
 const powerTestModel = require("../Models/power_testModel");
+const readinessSurveyModel = require("../Models/readinessSurvey");
 const strengthTestModel = require("../Models/strength_testModel");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 
 //==========================[user register]==============================
 const createUser = async function (req, res) {
@@ -339,7 +339,7 @@ const getMyDrills = async function (req, res) {
     try {
         let body = req.body;
 
-        const drills = await myDrillModel.find(body).select({ title: 1, category: 1, repetation: 1, sets: 1, _id: 0 });
+        const drills = await myDrillModel.find(body).select({_id:1, title: 1, category: 1, repetation: 1, sets: 1, createdAt:1 });
 
         return res.status(200).send({
             status: true,
